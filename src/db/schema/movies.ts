@@ -1,8 +1,15 @@
-/**
- * Movie Domain Schema
- * Contains table: movies
- * Represents films available for scheduling
- */
+import { pgTable, uuid, varchar, text, timestamp, integer, date } from 'drizzle-orm/pg-core';
 
-// Placeholder - schema will be implemented in Task 3
-export const movies = {};
+
+export const movies = pgTable('movies', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  title: varchar('title', { length: 500 }).notNull(),
+  genres: text('genres').array(),
+  actors: text('actors').array(),
+  durationMinutes: integer('duration_minutes').notNull(),
+  rating: varchar('rating', { length: 10 }),
+  description: text('description'),
+  releaseDate: date('release_date'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
