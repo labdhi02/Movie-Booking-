@@ -3,11 +3,15 @@ import express from "express";
 import http from "http";
 import logger from "./utils/logger";
 import { verifyConnection } from "./db/connection";
+import routes from "./routes";
+import { errorHandler } from "./middleware/error-handler.middleware";
+import requestLogger from "./middleware/requestLogger";
 
 const app = express();
 const httpServer = http.createServer(app);
 const PORT = Number(process.env.PORT) || 5000;
 
+app.use(requestLogger);
 
 app.use(express.json());
 
@@ -20,26 +24,8 @@ app.get("/", (_req, res) => {
   });
 });
 
-app.use(
-  (
-    err: any,
-    _req: express.Request,
-    res: express.Response,
-    _next: express.NextFunction,
-  ) => {
-    logger.error("Unhandled server error", {
-      message: err?.message,
-      stack: err?.stack,
-    });
-
-    res.status(err?.status || 500).json({
-      error:
-        process.env.NODE_ENV === "production"
-          ? "Internal Server Error"
-          : err?.message || "Internal Server Error",
-    });
-  },
-);
+app.use('/api/v1', routes);
+app.use(errorHandler);
 
 httpServer.listen(PORT, async () => {
   logger.info(`Server running on port ${PORT}`);
