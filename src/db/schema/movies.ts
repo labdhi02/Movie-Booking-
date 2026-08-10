@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, timestamp, integer, date } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, text, timestamp, integer, date, index } from 'drizzle-orm/pg-core';
 
 
 export const movies = pgTable('movies', {
@@ -12,4 +12,7 @@ export const movies = pgTable('movies', {
   releaseDate: date('release_date'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
-});
+  deletedAt: timestamp('deleted_at'),
+}, (table) => ({
+  deletedAtIdx: index('movies_deleted_at_idx').on(table.deletedAt),
+}));
