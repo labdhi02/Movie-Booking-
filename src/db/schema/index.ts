@@ -1,5 +1,6 @@
 export * from './enums';
 
+export * from './profiles';
 export * from './theaters';
 export * from './screens';
 export * from './seats';
