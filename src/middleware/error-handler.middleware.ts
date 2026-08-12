@@ -12,10 +12,8 @@ export function errorHandler(
   res: Response,
   _next: NextFunction,
 ) {
-  logger.error("Error occurred", {
-    stack: error.stack,
+  logger.error(error.message || "Error occurred", {
     name: error.name,
-    code: error.code,
   });
   if (error instanceof NotFoundError) {
     return res.status(404).json({
