@@ -7,7 +7,7 @@
     "dev": "tsx src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
+    "db:migrate": "tsx src/db/migrate.ts",
     "db:push": "drizzle-kit push",
     "db:seed": "tsx src/db/seed.ts",
     "db:studio": "drizzle-kit studio"
@@ -22,12 +22,14 @@
     "drizzle-kit": "^0.31.10",
     "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
+    "pg": "^8.23.0",
     "postgres": "^3.4.9",
     "winston": "^3.19.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",
+    "@types/pg": "^8.21.0",
     "tsx": "^4.23.9",
     "typescript": "^7.0.2"
   }

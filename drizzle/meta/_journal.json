@@ -15,6 +15,13 @@
       "when": 1786336575791,
       "tag": "0001_abandoned_stardust",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1786595741633,
+      "tag": "0002_lively_professor_monster",
+      "breakpoints": true
     }
   ]
 }
