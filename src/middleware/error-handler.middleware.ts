@@ -4,17 +4,62 @@ import {
   NotFoundError,
   ValidationError,
   ConflictError,
+  UnauthorizedError,
+  ForbiddenError,
+  TokenExpiredError,
 } from "../errors/custom-errors";
 
 export function errorHandler(
   error: any,
-  _req: Request,
+  req: Request,
   res: Response,
   _next: NextFunction,
 ) {
-  logger.error(error.message || "Error occurred", {
-    name: error.name,
-  });
+  if (
+    error instanceof UnauthorizedError ||
+    error instanceof ForbiddenError ||
+    error instanceof TokenExpiredError
+  ) {
+    logger.warn("Authentication/Authorization failure", {
+      userId: (req as any).user?.id,
+      path: req.path,
+      method: req.method,
+      errorName: error.name,
+      message: error.message,
+    });
+  } else {
+    logger.error(error.message || "Error occurred", {
+      name: error.name,
+    });
+  }
+
+  if (error instanceof UnauthorizedError) {
+    return res.status(401).json({
+      error: {
+        message: error.message,
+        code: "UNAUTHORIZED",
+      },
+    });
+  }
+
+  if (error instanceof TokenExpiredError) {
+    return res.status(401).json({
+      error: {
+        message: error.message,
+        code: "TOKEN_EXPIRED",
+      },
+    });
+  }
+
+  if (error instanceof ForbiddenError) {
+    return res.status(403).json({
+      error: {
+        message: error.message,
+        code: "FORBIDDEN",
+      },
+    });
+  }
+
   if (error instanceof NotFoundError) {
     return res.status(404).json({
       error: {

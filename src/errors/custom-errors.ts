@@ -29,3 +29,33 @@ export class ConflictError extends Error {
     }
   }
 }
+
+export class UnauthorizedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "UnauthorizedError";
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, UnauthorizedError);
+    }
+  }
+}
+
+export class ForbiddenError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ForbiddenError";
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, ForbiddenError);
+    }
+  }
+}
+
+export class TokenExpiredError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "TokenExpiredError";
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, TokenExpiredError);
+    }
+  }
+}
