@@ -20,10 +20,9 @@ export function errorHandler(
     error instanceof ForbiddenError ||
     error instanceof TokenExpiredError
   ) {
-    logger.warn("Authentication/Authorization failure", {
+    logger.warn("Authentication failure", {
       userId: (req as any).user?.id,
       path: req.path,
-      method: req.method,
       errorName: error.name,
       message: error.message,
     });
