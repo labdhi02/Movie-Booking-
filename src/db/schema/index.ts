@@ -1,10 +1,10 @@
-/**
- * Schema Aggregator
- * Exports all schemas from a single entry point for use in Drizzle configuration and queries
- */
+export * from './enums';
 
-// Export all schemas (to be added in subsequent tasks)
+export * from './profiles';
 export * from './theaters';
+export * from './screens';
+export * from './seats';
 export * from './movies';
 export * from './showtimes';
 export * from './bookings';
+export * from './seat-reservations';
