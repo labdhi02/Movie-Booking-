@@ -10,6 +10,7 @@ export const movies = pgTable('movies', {
   rating: varchar('rating', { length: 10 }),
   description: text('description'),
   releaseDate: date('release_date'),
+  pullDate: date('pull_date'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
   deletedAt: timestamp('deleted_at'),
