@@ -22,6 +22,41 @@
       "when": 1786595741633,
       "tag": "0002_lively_professor_monster",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1787029343382,
+      "tag": "0003_ambitious_prowler",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1787036933050,
+      "tag": "0004_skinny_hedge_knight",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1787037000000,
+      "tag": "0005_profile_trigger",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1787037100000,
+      "tag": "0006_showtime_overlap_constraint",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1787037446192,
+      "tag": "0007_windy_dark_phoenix",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,1 @@
+ALTER TABLE "showtimes" ALTER COLUMN "status" SET DEFAULT 'scheduled';

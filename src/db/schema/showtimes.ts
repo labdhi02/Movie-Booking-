@@ -11,9 +11,9 @@ export const showtimes = pgTable('showtimes', {
   screenId: uuid('screen_id')
     .notNull()
     .references(() => screens.id, { onDelete: 'restrict' }),
-  startTime: timestamp('start_time').notNull(),
-  endTime: timestamp('end_time').notNull(),
-  status: showtimeStatusEnum('status').notNull(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+  startTime: timestamp('start_time', { withTimezone: true }).notNull(),
+  endTime: timestamp('end_time', { withTimezone: true }).notNull(),
+  status: showtimeStatusEnum('status').notNull().default('scheduled'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });
