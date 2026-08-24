@@ -10,8 +10,20 @@ const currentDate = new Date().toISOString().split("T")[0];
 
 const safeStringify = (obj: Record<string, unknown>) => {
   try {
-    return JSON.stringify(obj);
-  } catch {
+    return JSON.stringify(obj, (key, value) => {
+      if (value instanceof Date) {
+        return value.toISOString();
+      }
+      if (value && typeof value === 'object' && 'toISOString' in value && typeof value.toISOString === 'function') {
+        try {
+          return value.toISOString();
+        } catch {
+          return String(value);
+        }
+      }
+      return value;
+    });
+  } catch (error) {
     return "[unserializable]";
   }
 };
