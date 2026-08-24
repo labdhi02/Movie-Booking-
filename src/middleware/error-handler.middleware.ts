@@ -92,6 +92,7 @@ export function errorHandler(
       error: {
         message: "Operation violates data integrity constraints",
         code: "CONFLICT",
+        detail: error.detail || "Foreign key constraint violation",
       },
     });
   }
@@ -107,8 +108,12 @@ export function errorHandler(
 
   return res.status(500).json({
     error: {
-      message: "Internal server error",
+      message: error.message || "Internal server error",
       code: "INTERNAL_ERROR",
+      ...(process.env.NODE_ENV === 'development' && { 
+        detail: error.detail,
+        dbCode: error.code 
+      }),
     },
   });
 }
