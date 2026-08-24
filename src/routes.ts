@@ -4,6 +4,7 @@ import screenRoutes from "./modules/screen/screen.routes";
 import seatRoutes from "./modules/seat/seat.routes";
 import movieRoutes from "./modules/movie/movie.routes";
 import authRoutes from "./modules/auth/auth.routes";
+import showtimeRoutes from "./modules/showtime/showtime.routes";
 
 const router = Router();
 
@@ -12,5 +13,6 @@ router.use("/theaters", theaterRoutes);
 router.use("/screens", screenRoutes);
 router.use("/screens", seatRoutes);
 router.use("/movies", movieRoutes);
+router.use("/showtimes", showtimeRoutes);
 
 export default router;
