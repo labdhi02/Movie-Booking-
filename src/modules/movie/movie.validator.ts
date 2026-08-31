@@ -63,3 +63,25 @@ export const updateMovieSchema = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/, 'Release date must be in YYYY-MM-DD format')
     .optional(),
 });
+
+export const movieSearchQuerySchema = z
+  .object({
+    title: z.string().min(1).max(200).optional(),
+    genre: z.string().min(1).max(50).optional(),
+    actor: z.string().min(1).max(100).optional(),
+    startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+    endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+    cursor: z.string().optional(),
+    limit: z.coerce.number().int().min(1).max(100).default(20),
+  })
+  .refine(
+    (data) => {
+      if (data.startDate && data.endDate) {
+        return new Date(data.startDate) <= new Date(data.endDate);
+      }
+      return true;
+    },
+    { message: 'startDate must be before or equal to endDate' }
+  );
+
+export type MovieSearchQuery = z.infer<typeof movieSearchQuerySchema>;
