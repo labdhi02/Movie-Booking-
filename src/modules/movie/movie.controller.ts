@@ -5,7 +5,11 @@ import {
   deleteMovie as deleteMovieService,
   getAllMovies as getAllMoviesService,
   getMovieById as getMovieByIdService,
+  searchMovies as searchMoviesService,
 } from "./movie.service";
+import { filterShowtimes as filterShowtimesService } from "../showtime/showtime.service";
+import { MovieSearchQuery } from "./movie.validator";
+import { ShowtimeFilterQuery } from "../showtime/showtime.validator";
 
 export const createMovie = async (
   req: Request,
@@ -72,6 +76,41 @@ export const getMovieById = async (
   try {
     const movie = await getMovieByIdService(req.params.id as string);
     res.status(200).json(movie);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const searchMovies = async (
+  req: Request<{}, {}, {}, MovieSearchQuery>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const result = await searchMoviesService(req.query);
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getMovieShowtimes = async (
+  req: Request<{ id: string }, {}, {}, ShowtimeFilterQuery>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const movieId = req.params.id;
+
+    const mergedQuery: ShowtimeFilterQuery = {
+      ...req.query,
+      movieId,
+    };
+
+    const result = await filterShowtimesService(mergedQuery);
+
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }

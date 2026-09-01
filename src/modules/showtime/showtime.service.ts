@@ -5,6 +5,8 @@ import {
   findAll,
   findById,
   findByMovie,
+  findShowtimes as findShowtimesRepo,
+  ShowtimeWithRelations,
 } from "./showtime.repository";
 import { findById as findMovieById } from "../movie/movie.repository";
 import { findById as findScreenById } from "../screen/screen.repository";
@@ -18,6 +20,18 @@ import {
   UpdateShowtimeData,
   GetShowtimesQuery,
 } from "./showtime.types";
+import { ShowtimeFilterQuery } from "./showtime.validator";
+
+export interface ShowtimeFilterResponse {
+  data: ShowtimeWithRelations[];
+
+  pagination: {
+    nextCursor: string | null;
+
+    previousCursor: string | null;
+    limit: number;
+  };
+}
 
 export const createShowtime = async (data: CreateShowtimeData) => {
   if (new Date(data.startTime) >= new Date(data.endTime)) {
@@ -160,4 +174,32 @@ export const getAllShowtimes = async (query: GetShowtimesQuery) => {
 
 export const getShowtimesByMovie = async (movieId: string) => {
   return await findByMovie(movieId);
+};
+
+export const filterShowtimes = async (
+  query: ShowtimeFilterQuery,
+): Promise<ShowtimeFilterResponse> => {
+  const filters = {
+    movieId: query.movieId,
+    theaterId: query.theaterId,
+    date: query.date,
+    startDate: query.startDate,
+    endDate: query.endDate,
+  };
+
+  const pagination = {
+    cursor: query.cursor,
+    limit: query.limit ?? 20, // Fallback to 20 if undefined
+  };
+
+  const result = await findShowtimesRepo(filters, pagination);
+
+  return {
+    data: result.items,
+    pagination: {
+      nextCursor: result.nextCursor,
+      previousCursor: result.previousCursor,
+      limit: pagination.limit,
+    },
+  };
 };

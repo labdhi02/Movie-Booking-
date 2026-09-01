@@ -5,8 +5,10 @@ import {
   deleteShowtime as deleteShowtimeService,
   getAllShowtimes as getAllShowtimesService,
   getShowtimesByMovie as getShowtimesByMovieService,
+  filterShowtimes as filterShowtimesService,
 } from "./showtime.service";
 import { GetShowtimesQuery } from "./showtime.types";
+import { ShowtimeFilterQuery } from "./showtime.validator";
 
 export const createShowtime = async (
   req: Request,
@@ -103,6 +105,20 @@ export const getShowtimesByMovie = async (
       : req.params.movieId;
     const showtimes = await getShowtimesByMovieService(movieId);
     res.status(200).json(showtimes);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const filterShowtimes = async (
+  req: Request<{}, {}, {}, ShowtimeFilterQuery>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const result = await filterShowtimesService(req.query);
+
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
