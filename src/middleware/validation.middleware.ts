@@ -35,11 +35,15 @@ export function validate(schemas: {
       }
 
       if (schemas.query) {
-        req.query = schemas.query.parse(req.query) as any;
+        const validatedQuery = schemas.query.parse(req.query);
+        Object.keys(req.query).forEach(key => delete (req.query as any)[key]);
+        Object.assign(req.query, validatedQuery);
       }
 
       if (schemas.params) {
-        req.params = schemas.params.parse(req.params) as any;
+        const validatedParams = schemas.params.parse(req.params);
+        Object.keys(req.params).forEach(key => delete req.params[key]);
+        Object.assign(req.params, validatedParams);
       }
 
       next();
