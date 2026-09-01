@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import { adminAuth } from '../../middleware/auth.middleware';
-import { validateRequest } from '../../middleware/validation.middleware';
+import { validateRequest, validate } from '../../middleware/validation.middleware';
 import { 
   createShowtimeSchema, 
-  updateShowtimeSchema 
+  updateShowtimeSchema,
+  showtimeFilterQuerySchema,
 } from './showtime.validator';
 import {
   createShowtime,
@@ -11,6 +12,7 @@ import {
   deleteShowtime,
   getAllShowtimes,
   getShowtimesByMovie,
+  filterShowtimes,
 } from './showtime.controller';
 
 const router = Router();
@@ -19,7 +21,7 @@ router.post('/', adminAuth, validateRequest(createShowtimeSchema), createShowtim
 router.patch('/:id', adminAuth, validateRequest(updateShowtimeSchema), updateShowtime);
 router.delete('/:id', adminAuth, deleteShowtime);
 
-router.get('/', getAllShowtimes);
+router.get('/', validate({ query: showtimeFilterQuerySchema }), filterShowtimes as any);
 router.get('/movie/:movieId', getShowtimesByMovie);
 
 export default router;
