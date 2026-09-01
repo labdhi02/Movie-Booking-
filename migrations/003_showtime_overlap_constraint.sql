@@ -10,10 +10,12 @@ IMMUTABLE
 AS $$
   SELECT tstzrange(start_time, end_time + interval '15 minutes');
 $$;
+ALTER TABLE showtimes DROP CONSTRAINT IF EXISTS showtime_no_overlap;
 
 ALTER TABLE showtimes 
 ADD CONSTRAINT showtime_no_overlap 
 EXCLUDE USING gist (
   screen_id WITH =,
   showtime_effective_range(start_time, end_time) WITH &&
-);
+)
+WHERE (status != 'cancelled');
